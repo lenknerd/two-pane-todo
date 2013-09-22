@@ -1,0 +1,31 @@
+body {
+    font: 14px 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-font-smoothing: antialiased;
+    -ms-font-smoothing: antialiased;
+    -o-font-smoothing: antialiased;
+    font-smoothing: antialiased;
+}
+
+.tododisplay {
+    font: inherit;
+    border:2px solid;
+    border-radius:25px;
+    border-color:#C0C0C0;
+    width:40%;
+    height:97%;
+    float:left;
+}
+
+#wrapper {
+    width:100%;
+    margin:0 auto;
+    margin-left:12px;
+    white-space: nowrap;
+}
+
+#buttons {
+    float:left;
+    width:15%;
+    text-align: center;
+}
