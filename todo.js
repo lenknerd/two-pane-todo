@@ -49,7 +49,22 @@ function allowDrop(ev)
 function dropInRecyc(ev)
 {
     ev.preventDefault();
+    var id = ev.dataTransfer.getData("Text");
+    alert("Dragged element with id " + id + " to recycling.");
     // Delete the thing from the database
+    /*
+    $.ajax({
+        url: DATABASE + "/_design/tasks/_view/tasks",
+        success: function (data){
+            var view = JSON.parse(data);
+            var tasks = [];
+            $(view.rows).each( function (index, item) {
+                tasks.push(item.value);
+            });
+            showTasks(tasks);
+        }
+    }); */
+
     // Call showTasks
 }
 
