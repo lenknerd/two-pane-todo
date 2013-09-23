@@ -3,7 +3,17 @@ var DATABASE = "/" + window.location.href.split("/")[3];
 
 // Get tasks from database
 function getAndShowTasks() {
-
+    $.ajax({
+        url: DATABASE + "/_design/tasks/_view/tasks",
+        success: function (data){
+            var view = JSON.parse(data);
+            var tasks = [];
+            $(view.rows).each( function (index, item) {
+                tasks.push(item.value);
+            });
+            showTasks(tasks);
+        }
+    });
 }
 
 // Show tasks
