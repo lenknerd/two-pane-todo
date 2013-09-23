@@ -18,7 +18,17 @@ function getAndShowTasks() {
 
 // Show tasks
 function showTasks(tasks) {
-
+    lhtml = "";
+    rhtml = "";
+    $(tasks).each( function (index, task) {
+        if(task.rightorleft=="left") {
+            lhtml += "<li>" + task.task + "</li>";
+        } else {
+            rhtml += "<li>" + task.task + "</li>";
+        }
+    });
+    document.getElementById("left-list").innerHTML = lhtml;
+    document.getElementById("right-list").innerHTML = rhtml;
 }
 
 // Add task to (right-screen) todo list
