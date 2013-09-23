@@ -21,14 +21,47 @@ function showTasks(tasks) {
     lhtml = "";
     rhtml = "";
     $(tasks).each( function (index, task) {
-        if(task.rightorleft=="left") {
-            lhtml += "<li>" + task.task + "</li>";
+        if(task.leftorright == "left") {
+            lhtml += "<li draggable=\"true\" ondragstart=\"drag(event)\">";
+            lhtml += task.task + "</li>";
         } else {
-            rhtml += "<li>" + task.task + "</li>";
+            rhtml += "<li draggable=\"true\" ondragstart=\"drag(event)\">";
+            rhtml += task.task + "</li>";
         }
     });
     document.getElementById("left-list").innerHTML = lhtml;
     document.getElementById("right-list").innerHTML = rhtml;
+}
+
+// see http://www.w3schools.com/html/html5_draganddrop.asp
+
+// What happens when you start dragging a task
+function drag(ev)
+{
+    ev.dataTransfer.setData("Text",ev.target.id);
+}
+
+// A function that allows dropping
+function allowDrop(ev)
+{
+    ev.preventDefault();
+}
+
+// Function for what happens at a drop in the recycling bin
+function dropInRecyc(ev)
+{
+    ev.preventDefault();
+    // Delete the thing from the database
+    // Call showTasks
+}
+
+// Function for what happens at a drop in another list
+function dropInBin(ev)
+{
+    ev.preventDefault();
+    // Switch the leftorright value to ev.target's left/rightness
+    //     in db corresponding to dragged guy
+    // Call showTasks
 }
 
 // Add task to (right-screen) todo list
