@@ -22,18 +22,16 @@ function showTasks(tasks) {
     rhtml = "";
     $(tasks).each( function (index, task) {
         if(task.leftorright == "left") {
-            lhtml += "<li draggable=\"true\" ondragstart=\"drag(event)\">";
-            lhtml += task.task + "</li>";
+            lhtml += "<li draggable=\"true\" ondragstart=\"drag(event)\"";
+            lhtml += " id=\"" + task.t + "\">" + task.task + "</li>";
         } else {
-            rhtml += "<li draggable=\"true\" ondragstart=\"drag(event)\">";
-            rhtml += task.task + "</li>";
+            rhtml += "<li draggable=\"true\" ondragstart=\"drag(event)\"";
+            rhtml += " id=\"" + task.t + "\">" + task.task + "</li>";
         }
     });
     document.getElementById("left-list").innerHTML = lhtml;
     document.getElementById("right-list").innerHTML = rhtml;
 }
-
-// see http://www.w3schools.com/html/html5_draganddrop.asp
 
 // What happens when you start dragging a task
 function drag(ev)
@@ -56,7 +54,7 @@ function dropInRecyc(ev)
 }
 
 // Function for what happens at a drop in another list
-function dropInBin(ev)
+function dropInList(ev)
 {
     ev.preventDefault();
     // Switch the leftorright value to ev.target's left/rightness
@@ -66,11 +64,14 @@ function dropInBin(ev)
 
 // Add task to (right-screen) todo list
 function addTask() {
+    var d = new Date();
+    var t = d.getTime().toString();
     var desc = prompt("Enter a task description");
     if (desc) {
         var task = {
             "task": desc,
-            "leftorright": "left"
+            "leftorright": "left",
+            "t": t
         };
 
         $.ajax({

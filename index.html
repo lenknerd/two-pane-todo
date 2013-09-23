@@ -19,9 +19,11 @@
             </div>
             <div id="buttons">
                 <br/><br/><br/><br/><br/>
-                <img id="newitem" src="createnew.jpg" width="70%" onclick="addTask()">
+                <img id="newitem" src="createnew.jpg" width="70%"
+                    onclick="addTask()">
                 <br/><br/><br/><br/><br/>
-                <img id="trashitem" src="recycle_bin.png" width="70%">
+                <img id="trashitem" src="recycle_bin.png" width="70%"
+                    ondragover="allowDrop(event)" ondrop="dropInRecyc(event)">
             </div>
             <div id="right-todo" class="tododisplay">
                 <ul id="right-list"></ul>
