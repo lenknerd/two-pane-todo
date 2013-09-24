@@ -5,7 +5,7 @@ var DATABASE = "/" + window.location.href.split("/")[3];
 function getAndShowTasks() {
     $.ajax({
         url: DATABASE + "/_design/tasks/_view/tasks",
-        success: function (data){
+        success: function (data) {
             var view = JSON.parse(data);
             var tasks = [];
             $(view.rows).each( function (index, item) {
@@ -45,42 +45,12 @@ function allowDrop(ev)
     ev.preventDefault();
 }
 
-// Find a task with given time in database
-function getTaskWithTime(time)
-{
-    var task = null;
-    $.ajax({
-        url: DATABASE + "/_design/tasks/_view/tasks",
-        success: function (data){
-            var view = JSON.parse(data);
-            $(view.rows).each( function (index, item) {
-                if(item.value.t == time) {
-                    task = item.value;
-                }
-            });
-        }
-    });
-    return task;
-}
-
-
 // Function for what happens at a drop in the recycling bin
 function dropInRecyc(ev)
 {
     ev.preventDefault();
     var time_of_movingtask = ev.dataTransfer.getData("Text");
-    var tasktodel = getTaskWithTime(time_of_movingtask);
-    alert('Deleting task with text ' + tasktodel.task);
-    // alert('Deleting task.');
-    // Delete it and refresh
-    /*
-    $.ajax({
-        type: "DELETE",
-        url: DATABASE + "/" + tasktodel._id + "?rev=" + tasktodel._rev,
-        success: function () {
-            getAndShowTasks();
-        }
-    }); */
+    // Search out task with right id
 }
 
 // Function for what happens at a drop in another list
@@ -131,5 +101,5 @@ function createView() {
         url: DATABASE + "/_design/tasks",
         contentType: "application/json",
         data: JSON.stringify(view)
-     });
+    });
 }
