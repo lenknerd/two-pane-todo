@@ -21,3 +21,8 @@ Under the hood, the main functions here are in Javascript, making use of the
 ajax communications with a CouchDB server.  The file todo.js has most of that.
 The index.html is what loads, but it doesn't include any task elements, those
 are inserted by functions in todo.js.
+
+Going for simplicity here, not just because I'm new at this, but also because
+it's a simple purpose that shouldn't require too much structure.  The whole
+program, all files including comments, is about 200 lines.  The page itself
+is also sparse -- two icons, two boxes, and whatever tasks the user adds.
