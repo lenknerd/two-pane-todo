@@ -9,10 +9,10 @@ It has two panes - a left and right.  Could be used in whatever sense you want,
 but I like to put "things I'll do today" on the left and "for later" on the
 right.
 
-There's a button for creating a task, which automatically gets thrown on the
-left side by default.  Then drag-and-drop functionality by grabbing and
-dragging the bullet points allows for moving tasks to/from left/right panes.
-Drag to the trash icon to delete when tasks are done.
+There's a button for creating a task, that brings up dialog box to enter text.
+The new task gets thrown on the left pane by default.  Drag-and-drop
+functionality (grabbing and dragging the bullet points) allows for moving
+tasks to/from left/right panes.  Drag task to trash icon when it's done.
 
 Under The Hood
 --------------
