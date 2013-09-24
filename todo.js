@@ -1,7 +1,7 @@
 // Retrieve database name from url, given naming convention in CouchDB
 var DATABASE = "/" + window.location.href.split("/")[3];
 
-// Get tasks from database
+// Get tasks from database, possible call show function
 function getAndShowTasks() {
     $.ajax({
         url: DATABASE + "/_design/tasks/_view/tasks",
@@ -18,6 +18,7 @@ function getAndShowTasks() {
 
 // Show tasks
 function showTasks(tasks) {
+    // Make list items for all the tasks
     lhtml = "";
     rhtml = "";
     $(tasks).each( function (index, task) {
@@ -31,6 +32,11 @@ function showTasks(tasks) {
     });
     document.getElementById("left-list").innerHTML = lhtml;
     document.getElementById("right-list").innerHTML = rhtml;
+    // In those elements, store couchdb locale for use in dragging events
+    $(tasks).each( function (index, task) {
+        $("#" + task.t).data('couchid',task._id);
+        $("#" + task.t).data('couchrev',task._rev);
+    });
 }
 
 // What happens when you start dragging a task
@@ -50,7 +56,15 @@ function dropInRecyc(ev)
 {
     ev.preventDefault();
     var time_of_movingtask = ev.dataTransfer.getData("Text");
-    // Search out task with right id
+    var i = $('#' + time_of_movingtask).data('couchid');
+    var r = $('#' + time_of_movingtask).data('couchrev');
+    $.ajax({
+        type: "DELETE",
+        url: DATABASE + "/" + i + "?rev=" + r,
+        success: function () {
+            getAndShowTasks();
+        }
+     });
 }
 
 // Function for what happens at a drop in another list
@@ -62,28 +76,33 @@ function dropInList(ev,lorr)
     // Call showTasks
 }
 
-// Add task to (right-screen) todo list
-function addTask() {
-    var d = new Date();
-    var t = d.getTime().toString();
+// Add task to one of the todo lists (left or right one)
+function addTask(leftorright) {
     var desc = prompt("Enter a task description");
     if (desc) {
-        var task = {
-            "task": desc,
-            "leftorright": "left",
-            "t": t
-        };
-
-        $.ajax({
-            type: "POST",
-            url: DATABASE,
-            contentType: "application/json",
-            data: JSON.stringify(task),
-            success: function () {
-                getAndShowTasks();
-            }
-        });
+        addTaskInternalAndShow(desc, "left");
     }
+}
+
+// Used above, and internally in the move left-right function
+function addTaskInternalAndShow(description, lorl)
+{
+    var d = new Date();
+    var t = d.getTime().toString();
+    var task = {
+        "task": description,
+        "leftorright": lorl,
+        "t": t
+    };
+    $.ajax({
+        type: "POST",
+        url: DATABASE,
+        contentType: "application/json",
+        data: JSON.stringify(task),
+        success: function () {
+            getAndShowTasks();
+        }
+    });
 }
 
 // Create view into CouchDB dbase -- run at page load, fails if already exists
