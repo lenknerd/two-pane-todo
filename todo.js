@@ -1,3 +1,12 @@
+/*  Javascript for generating simple to-do list using CouchDB.
+ *  On index.html load, the last function is called to set up CouchDB database
+ *  if first use, then getAndShowTasks() pulls data from there into html.
+ *  Rest of functions deal with drag and drop user interactions for adding or
+ *  moving or deleting tasks.
+ *
+ *  Author: David Lenkner.
+ *  Date: September 2013 */
+
 // Retrieve database name from url, given naming convention in CouchDB
 var DATABASE = "/" + window.location.href.split("/")[3];
 
