@@ -67,16 +67,20 @@ function dropInRecyc(ev)
     var time_of_movingtask = ev.dataTransfer.getData("Text");
     var i = $('#' + time_of_movingtask).data('couchid');
     var r = $('#' + time_of_movingtask).data('couchrev');
-    deleteInternal(i,r);
-    getAndShowTasks();
+    deleteInternal(i,r,true);
 }
 
-// Function to delete task from database, doesn't re-make html
-function deleteInternal(taskid, taskrev)
+// Function to delete task from database, re-makes html if desired
+function deleteInternal(taskid, taskrev, show)
 {
+    var succfunc = function() { };
+    if(show) {
+        succfunc = getAndShowTasks;
+    }
     $.ajax({
         type: "DELETE",
-        url: DATABASE + "/" + taskid + "?rev=" + taskrev
+        url: DATABASE + "/" + taskid + "?rev=" + taskrev,
+        success: succfunc
     });
 }
 
@@ -89,7 +93,7 @@ function dropInList(ev,lorr)
     // Delete the task as is... 
     var i = $('#' + time_of_movingtask).data('couchid');
     var r = $('#' + time_of_movingtask).data('couchrev');
-    deleteInternal(i,r);
+    deleteInternal(i,r,false);
     // And then add one of same descript to specified left/rightness
     addTaskInternalAndShow(descrip, lorr);
 }
