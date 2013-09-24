@@ -18,7 +18,7 @@ function getAndShowTasks() {
 
 // Show tasks
 function showTasks(tasks) {
-    // Make list items for all the tasks
+    // Append all the tasks to one or another html lists
     lhtml = "";
     rhtml = "";
     $(tasks).each( function (index, task) {
@@ -59,21 +59,19 @@ function dropInRecyc(ev)
     var i = $('#' + time_of_movingtask).data('couchid');
     var r = $('#' + time_of_movingtask).data('couchrev');
     deleteInternal(i,r);
+    getAndShowTasks();
 }
 
-// Function to delete task from database
+// Function to delete task from database, doesn't re-make html
 function deleteInternal(taskid, taskrev)
 {
     $.ajax({
         type: "DELETE",
-        url: DATABASE + "/" + taskid + "?rev=" + taskrev,
-        success: function () {
-            getAndShowTasks();
-        }
+        url: DATABASE + "/" + taskid + "?rev=" + taskrev
     });
 }
 
-// Function for what happens at a drop in another list
+// Function for what happens when drag task list to list
 function dropInList(ev,lorr)
 {
     ev.preventDefault();
