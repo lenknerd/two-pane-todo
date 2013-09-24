@@ -14,7 +14,8 @@
     <!-- The main page -->
     <body onload="createView(); getAndShowTasks();">
         <div id="wrapper">
-            <div id="left-todo" class="tododisplay">
+            <div id="left-todo" class="tododisplay"
+            ondragover="allowDrop(event)" ondrop="dropInList(event,'left')">
                 <ul id="left-list"></ul>
             </div>
             <div id="buttons">
@@ -25,7 +26,8 @@
                 <img id="trashitem" src="recycle_bin.png" width="70%"
                     ondragover="allowDrop(event)" ondrop="dropInRecyc(event)">
             </div>
-            <div id="right-todo" class="tododisplay">
+            <div id="right-todo" class="tododisplay"
+            ondragover="allowDrop(event)" ondrop="dropInList(event,'right')">
                 <ul id="right-list"></ul>
             </div>
         </div>

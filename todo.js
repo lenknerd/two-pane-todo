@@ -58,22 +58,33 @@ function dropInRecyc(ev)
     var time_of_movingtask = ev.dataTransfer.getData("Text");
     var i = $('#' + time_of_movingtask).data('couchid');
     var r = $('#' + time_of_movingtask).data('couchrev');
+    deleteInternal(i,r);
+}
+
+// Function to delete task from database
+function deleteInternal(taskid, taskrev)
+{
     $.ajax({
         type: "DELETE",
-        url: DATABASE + "/" + i + "?rev=" + r,
+        url: DATABASE + "/" + taskid + "?rev=" + taskrev,
         success: function () {
             getAndShowTasks();
         }
-     });
+    });
 }
 
 // Function for what happens at a drop in another list
 function dropInList(ev,lorr)
 {
     ev.preventDefault();
-    // Switch the leftorright value to ev.target's left/rightness
-    //     in db corresponding to dragged guy
-    // Call showTasks
+    var time_of_movingtask = ev.dataTransfer.getData("Text");
+    var descrip = document.getElementById(time_of_movingtask).innerHTML;
+    // Delete the task as is... 
+    var i = $('#' + time_of_movingtask).data('couchid');
+    var r = $('#' + time_of_movingtask).data('couchrev');
+    deleteInternal(i,r);
+    // And then add one of same descript to specified left/rightness
+    addTaskInternalAndShow(descrip, lorr);
 }
 
 // Add task to one of the todo lists (left or right one)
@@ -85,13 +96,13 @@ function addTask(leftorright) {
 }
 
 // Used above, and internally in the move left-right function
-function addTaskInternalAndShow(description, lorl)
+function addTaskInternalAndShow(description, lorr)
 {
     var d = new Date();
     var t = d.getTime().toString();
     var task = {
         "task": description,
-        "leftorright": lorl,
+        "leftorright": lorr,
         "t": t
     };
     $.ajax({
