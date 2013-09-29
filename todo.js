@@ -67,16 +67,20 @@ function dropInRecyc(ev)
     var time_of_movingtask = ev.dataTransfer.getData("Text");
     var i = $('#' + time_of_movingtask).data('couchid');
     var r = $('#' + time_of_movingtask).data('couchrev');
-    deleteInternal(i,r);
+    deleteInternal(i,r,true);
 }
 
-// Function to delete task from database, re-makes html
-function deleteInternal(taskid, taskrev)
+// Function to delete task from database, re-makes html if desired
+function deleteInternal(taskid, taskrev, show)
 {
+    successfunc = function() { };
+    if(show) { // A delay here, else page occasionally updates before couchdb
+        successfunc = function() { setTimeout(getAndShowTasks, 300) };
+    }
     $.ajax({
         type: "DELETE",
         url: DATABASE + "/" + taskid + "?rev=" + taskrev,
-        success: getAndShowTasks
+        success: successfunc
     });
 }
 
@@ -89,7 +93,7 @@ function dropInList(ev,lorr)
     // Delete the task as is... 
     var i = $('#' + time_of_movingtask).data('couchid');
     var r = $('#' + time_of_movingtask).data('couchrev');
-    deleteInternal(i,r);
+    deleteInternal(i,r,false);
     // And then add one of same descript to specified left/rightness
     addTaskInternalAndShow(descrip, lorr);
 }
@@ -118,7 +122,7 @@ function addTaskInternalAndShow(description, lorr)
         contentType: "application/json",
         data: JSON.stringify(task),
         success: function () {
-            getAndShowTasks();
+            setTimeout( getAndShowTasks, 300 );
         }
     });
 }
